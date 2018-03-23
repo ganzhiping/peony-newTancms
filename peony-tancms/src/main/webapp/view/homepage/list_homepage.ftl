@@ -104,60 +104,63 @@
   </div>
   
   </#if>-->
-  <div class="kuang_2">
-    <div class="al_dy">
-      <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/thinktank/listPubinfo">MORE</a></span> <span class="t_tit">案例推荐</span> </div>
-      <div class="kuang_in">
-        <div class="list" id="listpubinfo">
-          	<div style=" padding-top: 40px; text-align: center;">
-          		<div class="tuxing_dengdai"></div>
-        			 <p>正在加载</p>
-         	</div>
-        </div>
-      </div>
-    </div>
-    <!--舆情日报 -->
-   <#-- <div class="rd_xw">
-      <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/report/listReport">MORE</a></span> <span class="t_tit">舆情日报</span> </div>
-      <div class="kuang_in">
-        <div class="list" id="listreport">
-       		 <div style=" padding-top: 40px; text-align: center;">
-          		<div class="tuxing_dengdai"></div>
-         		<p>正在加载</p>
-         	</div>
-        </div>
-      </div>
-    </div>-->
-   <#if userfront.userType==2>
-    <div class="gg_zt">
-      <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/focus/listFocus">MORE</a></span> <span class="t_tit">公共专题</span> </div>
-      <div class="kuang_in">
-        <div class="list" id="listfocus">
-        	<div style=" padding-top: 40px; text-align: center;">
-          		<div class="tuxing_dengdai"></div>
-        			 <p>正在加载</p>
-         	</div>
-        </div>
-      </div>
-    </div>
-    <#else>
-    <!--企业舆情简报 -->
-    <div class="gg_zt">
-      <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/briefreport/listBriefreport">MORE</a></span> <span class="t_tit">舆情简报</span> </div>
-      <div class="kuang_in">
-        <div class="list" id="listBriefreport">
-        	<div style=" padding-top: 40px; text-align: center;">
-          		<div class="tuxing_dengdai"></div>
-        			 <p>正在加载</p>
-         	</div>
-        </div>
-      </div>
-    </div>
-    
-    </#if>
-  </div>
+
   
 </div>
+
+    <div class="kuang_2">
+        <div class="al_dy">
+            <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/thinktank/listPubinfo">MORE</a></span> <span class="t_tit">案例推荐</span> </div>
+            <div class="kuang_in">
+                <div class="list" id="listpubinfo">
+                    <div style=" padding-top: 40px; text-align: center;">
+                        <div class="tuxing_dengdai"></div>
+                        <p>正在加载</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--舆情日报 -->
+    <#-- <div class="rd_xw">
+       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/report/listReport">MORE</a></span> <span class="t_tit">舆情日报</span> </div>
+       <div class="kuang_in">
+         <div class="list" id="listreport">
+                 <div style=" padding-top: 40px; text-align: center;">
+                   <div class="tuxing_dengdai"></div>
+                  <p>正在加载</p>
+              </div>
+         </div>
+       </div>
+     </div>-->
+    <#--<#if userfront.userType==2>
+     <div class="gg_zt">
+       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/focus/listFocus">MORE</a></span> <span class="t_tit">公共专题</span> </div>
+       <div class="kuang_in">
+         <div class="list" id="listfocus">
+             <div style=" padding-top: 40px; text-align: center;">
+                   <div class="tuxing_dengdai"></div>
+                      <p>正在加载</p>
+              </div>
+         </div>
+       </div>
+     </div>
+     <#else>
+     <!--企业舆情简报 &ndash;&gt;
+     <div class="gg_zt">
+       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/briefreport/listBriefreport">MORE</a></span> <span class="t_tit">舆情简报</span> </div>
+       <div class="kuang_in">
+         <div class="list" id="listBriefreport">
+             <div style=" padding-top: 40px; text-align: center;">
+                   <div class="tuxing_dengdai"></div>
+                      <p>正在加载</p>
+              </div>
+         </div>
+       </div>
+     </div>
+
+     </#if>-->
+    </div>
+
 <div id="bar"></div>
  
  
