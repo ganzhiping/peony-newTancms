@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.peonyfront.popular.dao.PopularMapper" >
+  <resultMap id="BaseResultMap" type="com.peony.peonyfront.popular.model.Popular" >
+    <id column="id" property="popularId" jdbcType="INTEGER" />
+    <result column="writer" property="writer" jdbcType="VARCHAR" />
+    <result column="uploadTime" property="uploadTime" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="descript" property="descript" jdbcType="VARCHAR" />
+    <result column="changeTime" property="changeTime" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="periods" property="periods" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="baseColumn">
+      id,writer,date_format(uploadTime,'%y-%m-%d %T') uploadTime,content,title,descript,changeTime,userid,periods,userName
+  </sql>
+  <select id="selectByPage" parameterType="com.peony.peonyfront.popular.model.Popular" resultMap="BaseResultMap">
+    select
+    <include refid="baseColumn"/>
+    from pe_t_popular
+    where isDelete ='0' and userid like concat(concat('%',#{userid}),'%')
+    order by uploadTime desc
+  </select>
+
+  <select id="selectByPopularId" parameterType="com.peony.peonyfront.popular.model.Popular" resultType="com.peony.peonyfront.popular.model.Popular">
+    select
+    <include refid="baseColumn"/>
+    from pe_t_popular
+    where isDelete ='0'
+    and id=#{popularId,jdbcType=INTEGER}
+  </select>
+  <select id="update" parameterType="com.peony.peonyfront.popular.model.Popular">
+   update pe_t_popular
+    set  isDelete ='1'
+    and id=#{popularId,jdbcType=INTEGER}
+  </select>
+
+</mapper>

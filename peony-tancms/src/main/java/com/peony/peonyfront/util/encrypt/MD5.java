@@ -1,5 +1,8 @@
 package com.peony.peonyfront.util.encrypt;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MD5 {
     public static String PASSWORD_ENCRYPT_PASSWORD = "password_peony0513dsj";
 
@@ -579,7 +582,14 @@ public class MD5 {
     }
 
     public static void main(String[] args) {
-        System.out.print(passwordDecrypt(""));
+        /*    System.out.print(passwordDecrypt(""));*/
+        Map<String,String> map=new HashMap<String,String>();
+        for(int i =0;i<10;i++){
+            map.put("aaaa","aaaa");
+        }
+        for(int i=0;i<map.size();i++){
+            System.out.println(map.get("aaaa"));
+        }
 
     }
 }

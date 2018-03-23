@@ -48,7 +48,7 @@
 <div class="bg">
   <div class="kuang_1">
   <!-- 舆情预警-->
-    <div class="yq_yj">
+   <#-- <div class="yq_yj">
       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/warning/listWarning">MORE</a></span> <span class="t_tit">舆情预警</span> </div>
       <div class="kuang_in">
         <div class="list" id="listWarning">
@@ -58,7 +58,7 @@
          	</div>
         </div>
       </div>
-    </div>
+    </div>-->
     
     <!-- 定制舆情-->
     <div class="yq_yq">
@@ -72,8 +72,8 @@
         </div>
       </div>
     </div>
-    <#if userfront.userType==2>
-    <!-- 政务舆情-->
+   <#-- <#if userfront.userType==2>
+    <!-- 政务舆情&ndash;&gt;
     <div class="yq_rbi">
       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/event/toListEvent?timeMethod=5">MORE</a></span> <span class="t_tit">政务舆情</span> </div>
       <div class="kuang_in">
@@ -88,7 +88,7 @@
 
   </div>
   <#else>
-  <!-- 行业舆情-->
+  <!-- 行业舆情&ndash;&gt;
    <div class="yq_rbi">
       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/industry/toListIndustry?timeMethod=5">MORE</a></span> <span class="t_tit">行业舆情</span> </div>
       <div class="kuang_in">
@@ -103,7 +103,7 @@
 
   </div>
   
-  </#if>
+  </#if>-->
   <div class="kuang_2">
     <div class="al_dy">
       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/thinktank/listPubinfo">MORE</a></span> <span class="t_tit">案例推荐</span> </div>
@@ -117,7 +117,7 @@
       </div>
     </div>
     <!--舆情日报 -->
-    <div class="rd_xw">
+   <#-- <div class="rd_xw">
       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/report/listReport">MORE</a></span> <span class="t_tit">舆情日报</span> </div>
       <div class="kuang_in">
         <div class="list" id="listreport">
@@ -127,7 +127,7 @@
          	</div>
         </div>
       </div>
-    </div>
+    </div>-->
    <#if userfront.userType==2>
     <div class="gg_zt">
       <div class="title_h1"><span class="more"><a target="_blank" href="${request.getContextPath()}/focus/listFocus">MORE</a></span> <span class="t_tit">公共专题</span> </div>

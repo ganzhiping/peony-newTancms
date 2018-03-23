@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.opinionMon.dao.OpinionMonMapper">
+    <resultMap id="BaseResultMap" type="com.peony.newPeony.opinionMon.model.OpinionCondition">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="subjectId" property="subjectid" jdbcType="INTEGER" />
+        <result column="pageId" property="pageid" jdbcType="VARCHAR" />
+        <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="webSite" property="website" jdbcType="VARCHAR" />
+        <result column="downloadDate" property="downloaddate" jdbcType="TIMESTAMP" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="summary" property="summary" jdbcType="VARCHAR" />
+        <result column="clickCount" property="clickcount" jdbcType="INTEGER" />
+        <result column="replyCount" property="replycount" jdbcType="INTEGER" />
+        <result column="forwardCount" property="forwardcount" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="publishDate" property="publishdate" jdbcType="TIMESTAMP" />
+        <result column="newsLevel" property="newslevel" jdbcType="INTEGER" />
+        <result column="polarity" property="polarity" jdbcType="INTEGER" />
+        <result column="groupCount" property="groupcount" jdbcType="INTEGER" />
+        <result column="groupSeedId" property="groupseedid" jdbcType="VARCHAR" />
+        <result column="is_mainInfo" property="isMaininfo" jdbcType="VARCHAR" />
+        <result column="is_read" property="isRead" jdbcType="INTEGER" />
+        <result column="userId" property="userid" jdbcType="INTEGER" />
+        <result column="pageNum" property="pageNum" jdbcType="INTEGER" />
+        <result column="pageNoByTitle" property="pageNoByTitle" jdbcType="INTEGER" />
+        <result column="report" property="report" jdbcType="INTEGER" />
+        <result column="highlight" property="highligiht" jdbcType="VARCHAR" />
+        <result column="es_relevance" property="es_relevance" jdbcType="VARCHAR" />
+        <result column="is_concern" property="isConcern" jdbcType="INTEGER" />
+        <result column="hitKeywords" property="keywords" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,subjectId,pageId,updateTime,url,webSite,downloadDate,title,summary,clickCount,replyCount,forwardCount,type,
+        publishDate,newsLevel,polarity,groupCount,groupSeedId,is_mainInfo,is_read,userId
+    </sql>
+
+    <sql id="modelTableName">
+        <![CDATA[pe_t_subject_page]]>
+    </sql>
+    <select id="selectByOverViewTop" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="modelTableName"/>
+        where 1=1
+        <if test="startTime!=null">
+           and <![CDATA[publishDate >= '${startTime}']]>
+        </if>
+        <if test="userid!=null">
+            and <![CDATA[userId = '${userid}']]>
+        </if>
+        <if test="polarity!=null">
+            and <![CDATA[polarity = '${polarity}']]>
+        </if>
+        <if test="newslevelConditions!=null">
+            and <![CDATA[newsLevel in ( ${newslevelConditions} )]]>
+        </if>
+        order by  publishDate DESC
+    </select>
+
+    <!--查询搜索总条数-->
+    <select id="selectSearchTotal" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition" resultType="java.lang.String">
+        SELECT
+        count(p.id)
+        FROM
+        pe_t_subject_page p
+        <if test="queryid!=null">
+            right join pe_t_query_cache c on p.userid=c.user_id and p.subjectid =c.subject_id and p.pageid = c.page_id
+        </if>
+        where 1=1
+        <if test="queryid!=null">
+            and <![CDATA[c.query_id = '${queryid}']]>
+        </if>
+        <if test="subjectid!=null">
+            and <![CDATA[p.subjectId in ( ${subjectidArray} )]]>
+        </if>
+        <if test="id!=null">
+            and p.id = #{id}
+        </if>
+        <if test="title!=null">
+            and p.title like CONCAT ('%','${title}','%')
+        </if>
+        <if test="type!=null and type!=0">
+            and p.type = #{type}
+        </if>
+        <if test="polarity==-1">
+            and p.polarity = #{polarity}
+        </if>
+        <if test="polarity==1">
+            and (p.polarity =1 or p.polarity =0)
+        </if>
+        <if test="startTime!=null">
+            and <![CDATA[p.publishDate >= '${startTime}']]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[p.publishDate <= '${endTime}']]>
+        </if>
+        <if test="newslevelConditions!=null">
+            and <![CDATA[p.newsLevel in ( ${newslevelConditions} )]]>
+        </if>
+        <if test="siteLevel!=0 and siteLevel!=null">
+            and <![CDATA[p.siteLevel = ${siteLevel}]]>
+        </if>
+        and p.state='0'
+        and p.is_mainInfo = 1
+        and p.userId = #{userid}
+    </select>
+    <select id="selectByPage" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition" resultMap="BaseResultMap">
+        SELECT
+        p.id,p.subjectId,p.pageId,p.updateTime,p.url,p.webSite,p.downloadDate,p.title,p.summary,p.clickCount,p.replyCount,p.forwardCount,p.type,
+        p.publishDate,p.newsLevel,p.polarity,p.groupCount,p.groupSeedId,p.is_mainInfo,p.is_read,p.userId,d.is_concern
+        <if test="queryid!=null">
+           ,c.highlight,c.es_relevance
+        </if>
+        FROM
+        pe_t_subject_page p
+        <if test="queryid!=null">
+            right join pe_t_query_cache c on p.userid=c.user_id and p.subjectid =c.subject_id and p.pageid = c.page_id
+        </if>
+        left join pe_t_page_concern d
+        on p.userid=d.userid and p.subjectid=d.subjectid and p.pageid=d.pageid
+        where 1=1
+        <if test="queryid!=null">
+            and <![CDATA[c.query_id = '${queryid}']]>
+        </if>
+        <if test="subjectid!=null">
+            and <![CDATA[p.subjectId in ( ${subjectidArray} )]]>
+        </if>
+        <if test="id!=null">
+            and p.id = #{id}
+        </if>
+
+        <if test="type!=null and type!=0">
+            and p.type = #{type}
+        </if>
+        <if test="polarity==-1">
+            and p.polarity = #{polarity}
+        </if>
+        <if test="polarity==1">
+            and (p.polarity =1 or p.polarity =0)
+        </if>
+        <if test="startTime!=null">
+            and <![CDATA[p.publishDate >= '${startTime}']]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[p.publishDate <= '${endTime}']]>
+        </if>
+        <if test="newslevelConditions!=null">
+            and <![CDATA[p.newsLevel in ( ${newslevelConditions} )]]>
+        </if>
+        <if test="siteLevel!=0 and siteLevel!=null">
+            and <![CDATA[p.siteLevel = ${siteLevel}]]>
+        </if>
+        and p.state='0'
+        and p.is_mainInfo = 1
+        and p.userId = #{userid}
+            ${orderStr}
+        limit ${pageParameter.totalPage},${pageParameter.pageSize}
+    </select>
+
+    <select id="selectByPageIdOnPo" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition" resultType="com.peony.newPeony.opinionMon.model.OpinionCondition">
+        select groupCount , polarity,hitKeywords from pe_t_subject_page
+        where userId=#{userid} and subjectid=#{subjectid} and pageId=#{pageid}
+
+    </select>
+    <select id="selectByExportExecle" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition" resultMap="BaseResultMap">
+        SELECT
+        id,subjectId,pageId,updateTime,url,webSite,downloadDate,title,summary,clickCount,replyCount,forwardCount,type,
+        publishDate,newsLevel,polarity,groupCount,groupSeedId,is_mainInfo,is_read,userId
+        FROM
+        pe_t_subject_page
+        where 1=1
+        <if test="subjectid!=null">
+            and <![CDATA[subjectId in ( ${subjectidArray} )]]>
+        </if>
+        <if test="idArray!=null">
+            and <![CDATA[id in ( ${idArray} )]]>
+        </if>
+        <if test="title!=null">
+            and title like CONCAT ('%','${title}','%')
+        </if>
+        <if test="type!=null and type!=0">
+            and type = #{type}
+        </if>
+        <if test="polarity==-1">
+            and polarity = #{polarity}
+        </if>
+        <if test="polarity==1">
+            and (polarity =1 or polarity =0)
+        </if>
+        <if test="isRead!=null and isRead!=-1">
+            and is_read = #{isRead}
+        </if>
+        <if test="startTime!=null">
+            and <![CDATA[publishDate >= '${startTime}']]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[publishDate <= '${endTime}']]>
+        </if>
+        <if test="newslevelConditions!=null">
+            and <![CDATA[newsLevel in ( ${newslevelConditions} )]]>
+        </if>
+        <if test="webLevel!=null">
+            and <![CDATA[webLevel = ${webLevel}]]>
+        </if>
+        <if test="source!=null">
+            and <![CDATA[source = ${source}]]>
+        </if>
+        and state='0'
+        and is_mainInfo = 1
+        and userId = #{userid}
+            ${orderStr}
+    </select>
+
+    <select id="selectPageCount" resultType="com.peony.newPeony.opinionMon.model.OpinionCondition" >
+      SELECT
+        count(p.id) pageNum
+        FROM
+        pe_t_subject_page p
+        where 1=1
+        <if test="subjectid!=null">
+            and <![CDATA[p.subjectId in ( ${subjectidArray} )]]>
+        </if>
+        <if test="id!=null">
+            and p.id = #{id}
+        </if>
+        <if test="title!=null">
+            and p.title like CONCAT ('%','${title}','%')
+        </if>
+        <if test="type!=null and type!=0">
+            and p.type = #{type}
+        </if>
+        <if test="polarity==-1">
+            and p.polarity = #{polarity}
+        </if>
+        <if test="polarity==1">
+            and (p.polarity =1 or p.polarity =0)
+        </if>
+        <if test="startTime!=null">
+            and <![CDATA[p.publishDate >= '${startTime}']]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[p.publishDate <= '${endTime}']]>
+        </if>
+        <if test="newslevelConditions!=null">
+            and <![CDATA[p.newsLevel in ( ${newslevelConditions} )]]>
+        </if>
+        <if test="siteLevel!=0 and siteLevel!=null">
+            and <![CDATA[p.siteLevel = ${siteLevel}]]>
+        </if>
+        and p.state='0'
+        and p.is_mainInfo = 1
+        and p.userId = #{userid}
+    </select>
+
+    <select id="selectByPageId" parameterType="java.lang.String" resultType="com.peony.newPeony.opinionMon.model.OpinionCondition">
+        SELECT
+        p.id,p.subjectId,p.pageId,p.updateTime,p.url,p.webSite,p.downloadDate,p.title,p.summary,p.clickCount,p.replyCount,p.forwardCount,p.type,
+        p.publishDate,p.newsLevel,p.polarity,p.groupCount,p.groupSeedId,p.is_mainInfo,p.is_read,p.userId,c.is_concern,p.hitKeywords
+        FROM
+        pe_t_subject_page p left join pe_t_page_concern c on p.userid=c.userid and p.subjectid=c.subjectid and p.pageid=c.pageid
+        where
+        p.id=#{id}
+    </select>
+
+    <select id="selectRouteReport" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition" resultMap="BaseResultMap">
+       SELECT
+	    count(url) report,any_value(website) website,url,any_value(publishdate)publishdate
+    FROM (
+		SELECT
+			substring_index(
+				substring_index(url, "//" ,- 1),
+				'/',
+				1
+			) url,
+			website,
+			publishdate
+		FROM
+			pe_t_subject_page
+		WHERE
+			userid = ${userid}
+            and subjectid=${subjectid}
+            and  <![CDATA[publishdate like ( '${timeStr}%' )]]>
+	      ) aa
+          group by url  order by publishdate desc
+    </select>
+
+    <!-- 批量删除即修改查询状态 -->
+    <delete id="updateState" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition">
+        update
+        <include refid="modelTableName" />
+        set state='1'
+        where userId = #{userid}
+        and  <![CDATA[id in ( ${idArray}  )]]>
+    </delete>
+    <update id="updateSubject_pagePolarity" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition">
+        update pe_t_subject_page set polarity=#{p_feedp,jdbcType=INTEGER} where subjectid = #{subjectid}
+        and  <![CDATA[ pageid='${p_pageid}']]>
+    </update>
+    <!--极性-->
+    <select id="selectProparity" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition" resultType="java.lang.String">
+        select id from sentiment_feedback
+        where
+        subject_id = #{p_subjectid}
+        and   <![CDATA[ page_id='${p_pageid}']]>
+    </select>
+    <insert id="insertProparity" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition">
+        insert into sentiment_feedback(id,feedback_data,feedback_polarity,is_used,origin_polarity,page_id,subject_id)
+        values(
+        #{p_id,jdbcType=INTEGER},
+        #{p_feedT,jdbcType=TIMESTAMP},
+        #{p_feedp,jdbcType=INTEGER},
+        #{p_isused,jdbcType=INTEGER},
+        #{p_originp,jdbcType=INTEGER},
+        #{p_pageid,jdbcType=VARCHAR},
+        #{p_subjectid,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateProparity" parameterType="com.peony.newPeony.opinionMon.model.OpinionCondition">
+        update sentiment_feedback SET
+        feedback_data=  #{p_feedT,jdbcType=TIMESTAMP},
+        feedback_polarity=#{p_feedp,jdbcType=INTEGER},
+        is_used=#{p_isused,jdbcType=INTEGER},
+        origin_polarity= #{p_originp,jdbcType=INTEGER},
+        page_id=#{p_pageid,jdbcType=VARCHAR},
+        subject_id=#{p_subjectid,jdbcType=VARCHAR}
+        where id=#{p_id}
+    </update>
+</mapper>

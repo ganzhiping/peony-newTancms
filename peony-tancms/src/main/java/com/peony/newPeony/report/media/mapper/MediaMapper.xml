@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.report.media.dao.MediaMapper">
+    <resultMap id="BaseResultMap" type="com.peony.newPeony.report.media.model.MediaUtil">
+        <result column="report_time" property="reportTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userid" jdbcType="INTEGER" />
+        <result column="subject_id" property="subjectid" jdbcType="INTEGER" />
+        <result column="media_type" property="mediaType" jdbcType="INTEGER" />
+        <result column="cnt" property="cnt" jdbcType="INTEGER" />
+        <result column="fCnt" property="fCnt" jdbcType="INTEGER" />
+        <result column="zCnt" property="zCnt" jdbcType="INTEGER" />
+        <result column="sentiment" property="sentiment" jdbcType="VARCHAR" />
+        <result column="mediaName" property="mediaName" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+
+    </resultMap>
+    <sql id="Base_Column_List">
+      case
+        when media_type='1' then '网站'
+        when media_type='2' then '博客'
+        when media_type='3' then '微博'
+        when media_type='4' then '问答'
+        when media_type='5' then '视频'
+        when media_type='6' then '学术'
+        when media_type='7' then '微信'
+        when media_type='8' then '推特'
+        when media_type='9' then '电子报刊'
+        when media_type='10' then '论坛'
+        when media_type='11' then '政务'
+        when media_type='12' then '客户端'
+        when media_type='13' then '脸书'
+        when media_type='14' then '领英'
+        end mediaName
+    </sql>
+    <select id="selectMediaReportCount" resultMap="BaseResultMap" parameterType="com.peony.newPeony.report.media.model.MediaUtil">
+        select fmedia.fCnt,zmedia.zCnt,fmedia.mediaName,fmedia.media_type from
+        (
+          select <include refid="Base_Column_List"/> , sum(cnt) as fCnt,media_type from mdyq_media_type_report
+            where sentiment='-1' and user_id=#{userid} and is_foreign='0'
+                <if test="starTime!=null">
+                    and <![CDATA[report_time >= '${starTime}']]>
+                </if>
+                <if test="subjectid!=0">
+                    and <![CDATA[subject_id = (${subjectid})]]>
+                </if>
+                <if test="endTime!=null">
+                    and <![CDATA[report_time <= '${endTime}']]>
+                </if>
+                 group by media_type
+        ) fmedia,
+        (
+          select SUM(cnt) as zCnt ,media_type  from mdyq_media_type_report
+            where (sentiment='1' or sentiment='0') and user_id=#{userid}  and is_foreign='0'
+                <if test="starTime!=null">
+                    and <![CDATA[report_time >= '${starTime}']]>
+                </if>
+                <if test="subjectid!=0">
+                    and <![CDATA[subject_id = (${subjectid})]]>
+                </if>
+                <if test="endTime!=null">
+                    and <![CDATA[report_time <= '${endTime}']]>
+                </if>
+                group BY media_type
+        ) zmedia
+        where fmedia.media_type = zmedia.media_type
+    </select>
+</mapper>

@@ -349,17 +349,17 @@ public class DocumentHandler {
         mailSession.setDebug(true);// 是否在控制台显示debug信息
         InternetAddress fromAddress;
         try {
-            fromAddress = new InternetAddress("peonydata@peony.cn");
+            fromAddress = new InternetAddress("ganzhiping@peony.cn");
             InternetAddress toAddress = new InternetAddress((String) dataMap.get("email"));
             MimeMessage testMessage = new MimeMessage(mailSession);
             // testMessage.setFrom(new InternetAddress("public@peony.cn"));
-            testMessage.setFrom(new InternetAddress(javax.mail.internet.MimeUtility.encodeText("云网端舆情服务系统") + " <" + "peonydata@peony.cn" + ">"));
+            testMessage.setFrom(new InternetAddress(javax.mail.internet.MimeUtility.encodeText("云网端舆情服务系统") + " <" + "ganzhiping@peony.cn" + ">"));
             testMessage.addRecipient(javax.mail.Message.RecipientType.TO, toAddress);
             testMessage.setSentDate(new java.util.Date());
             testMessage.setSubject(MimeUtility.encodeText((String) dataMap.get("title"), "gb2312", "B"));
             testMessage.setContent((String) dataMap.get("content"), "text/html;charset=gb2312");
             Transport transport = mailSession.getTransport("smtp");
-            transport.connect("mail.peony.cn", "peonydata@peony.cn", "O^Z7wyjk*scO71Ji");
+            transport.connect("mail.peony.cn", "ganzhiping@peony.cn", "Admin123!");
             transport.sendMessage(testMessage, testMessage.getAllRecipients());
             transport.close();
             i = 1;

@@ -1,0 +1,10 @@
+/*重写jbos样式*/
+div.jbox .jbox-content{min-height:80px;line-height:28px;color:#444444;overflow-y:hidden!important;}
+.jbox-container{background:#fff;border-radius:4px;}
+.jbox-title-panel{background:#00c9bf;}
+.jbox-title{color:#fff;}
+.jbox-close{background:url(../img/icon_delete.png) 0 0 no-repeat;}
+.jbox-button{margin:0 20px;padding:10px;background:#00c9bf;border:none;border-radius:4px;color:#fff;}
+.jbox-button-focus{}
+div.jbox .jbox-tip-color{background:#00c9bf;border-radius:8px;color:#fff;width:150px;}
+.jbox-tip-color>div{padding:10px 0 0!important;text-align:center!important;}

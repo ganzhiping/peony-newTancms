@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.report.subject.dao.SubjectReportMapper">
+    <resultMap id="BaseResultMap" type="com.peony.newPeony.report.subject.model.SubjectUtil">
+        <result column="report_time" property="reportTime" jdbcType="TIMESTAMP"/>
+        <result column="user_id" property="userid" jdbcType="INTEGER"/>
+        <result column="subject_id" property="subjectid" jdbcType="INTEGER"/>
+        <result column="cnt" property="cnt" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+       report_time, user_id, subject_id, sentiment, cnt,site,site_name
+    </sql>
+    <select id="selectSubjectDateType" resultMap="BaseResultMap"
+            parameterType="com.peony.newPeony.report.subject.model.SubjectUtil">
+      select sum(sumcnt) cnt,report_time,subject_id from (
+        SELECT
+            sum(cnt) sumcnt,
+            subject_id,
+            SUBSTR(report_time,1,10)report_time
+        FROM
+            mdyq_sentiment_report
+        WHERE 1=1
+        and user_id=#{userid}  and is_foreign='0'
+            <if test="starTime!=null">
+                and <![CDATA[report_time >= '${starTime}']]>
+            </if>
+            <if test="subjectid!=0">
+                and <![CDATA[subject_id = (${subjectid})]]>
+            </if>
+            <if test="endTime!=null">
+                and <![CDATA[report_time <= '${endTime}']]>
+            </if>
+        GROUP BY
+            report_time,
+            subject_id
+        ) aa group by 	subject_id,
+        report_time order by report_time
+    </select>
+
+    <select id="selectSubjectHourType" resultMap="BaseResultMap"
+            parameterType="com.peony.newPeony.report.subject.model.SubjectUtil">
+      select sum(cnthour) cnt,report_time,subject_id from (
+        SELECT
+        sum(cnt) cnthour,
+        report_time,
+        subject_id
+        FROM
+         mdyq_sentiment_report
+        WHERE 1=1
+          and user_id=#{userid}  and is_foreign='0'
+            <if test="starTime!=null">
+                and <![CDATA[report_time >= '${starTime}']]>
+            </if>
+            <if test="subjectid!=0">
+                and <![CDATA[subject_id =${subjectid}]]>
+            </if>
+            <if test="endTime!=null">
+                and <![CDATA[report_time <= '${endTime}']]>
+            </if>
+            GROUP BY
+            report_time,
+            subject_id
+        ) aa group by 	subject_id,
+        report_time order by report_time
+    </select>
+</mapper>

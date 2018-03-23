@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.opinionMon.dao.ConcernMapper">
+    <resultMap id="BaseResultMap" type="com.peony.newPeony.opinionMon.model.Concern">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="subjectId" property="subjectid" jdbcType="INTEGER" />
+        <result column="pageId" property="pageid" jdbcType="VARCHAR" />
+        <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+        <result column="userId" property="userid" jdbcType="INTEGER" />
+        <result column="is_concern" property="inConcern" jdbcType="INTEGER" />
+        <result column="countNum" property="countNum" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,userId,subjectId,pageId,updateTime,is_concern
+    </sql>
+
+    <sql id="modelTableName">
+        <![CDATA[pe_t_page_concern]]>
+    </sql>
+    <select id="selectByConcern" parameterType="com.peony.newPeony.opinionMon.model.Concern" resultType="com.peony.newPeony.opinionMon.model.Concern">
+        select
+           <include refid="Base_Column_List"/>
+        from
+        <include refid="modelTableName"/>
+        where subjectid =${subjectid}
+        and userId =${userid}
+        and <![CDATA[pageid = '${pageid}']]>
+    </select>
+
+    <select id="insertIntoConcern" parameterType="com.peony.newPeony.opinionMon.model.Concern">
+      insert into pe_t_page_concern (id,userId,subjectId,pageId,updateTime,is_concern)
+      values (
+        #{id,jdbcType=VARCHAR},
+        #{userid,jdbcType=INTEGER},
+        #{subjectid,jdbcType=INTEGER},
+        #{pageid,jdbcType=VARCHAR},
+        #{updateTime,jdbcType=TIMESTAMP},
+        #{isConcern,jdbcType=INTEGER})
+    </select>
+
+    <delete id="deleteConcern" parameterType="com.peony.newPeony.opinionMon.model.Concern">
+        delete from pe_t_page_concern
+        where  subjectid =${subjectid}
+        and userId =${userid}
+        and  <![CDATA[pageid = '${pageid}']]>
+    </delete>
+</mapper>

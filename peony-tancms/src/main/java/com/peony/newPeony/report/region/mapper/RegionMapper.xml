@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.report.region.dao.RegionReportMapper">
+    <resultMap id="BaseResultMap" type="com.peony.newPeony.report.region.model.RegionUtil">
+        <result column="report_time" property="reportTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userid" jdbcType="INTEGER" />
+        <result column="subject_id" property="subjectid" jdbcType="INTEGER" />
+        <result column="region_id" property="regionid" jdbcType="INTEGER" />
+        <result column="cnt" property="cnt" jdbcType="INTEGER" />
+        <result column="regionName" property="regionName" jdbcType="VARCHAR" />
+        <result column="provinceId" property="provinceId" jdbcType="INTEGER" />
+
+    </resultMap>
+    <sql id="Base_Column_List">
+       r.report_time, r.user_id, r.subject_id, r.region_id, a.provinceId
+    </sql>
+
+    <!--
+            select * from (SELECT
+            sum(r.cnt) cnt,
+            <include refid="Base_Column_List"/>
+            FROM
+            mdyq_region_report AS r,
+            mdyq_region_area AS a
+            WHERE
+              r.region_id = a.regionId  and r.is_foreign='0' and r.user_id=#{userid}
+            <if test="starTime!=null">
+                and <![CDATA[r.report_time >= '${starTime}']]>
+            </if>
+            <if test="subjectid!=0">
+                and <![CDATA[r.subject_id = (${subjectid})]]>
+            </if>
+            <if test="endTime!=null">
+                and <![CDATA[r.report_time <= '${endTime}']]>
+            </if>
+            GROUP BY
+            a.provinceId) as sortCnt order by cnt DESC
+
+        select * from (SELECT
+        sum(r.cnt) cnt,
+        <include refid="Base_Column_List"/>
+        FROM
+        mdyq_region_report AS r
+        left join
+        mdyq_region_area AS a on r.region_id != a.regionId
+        WHERE
+        r.is_foreign='0'
+        and  r.user_id=#{userid}
+        <if test="starTime!=null">
+            and <![CDATA[r.report_time >= '${starTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[r.subject_id = (${subjectid})]]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[r.report_time <= '${endTime}']]>
+        </if>
+        GROUP BY
+        a.provinceId) as sortCnt order by cnt DESC-->
+    <select id="selectRegionReportCount" resultMap="BaseResultMap" parameterType="com.peony.newPeony.report.region.model.RegionUtil">
+        select r.cnt,IFNULL(a.regionName,'全国')regionName,r.user_id,r.region_id
+        from
+        (select sum(cnt) cnt,region_id,user_id from  mdyq_region_report where is_foreign='0' and user_id=#{userid}
+        and region_id not in ('-1','96','97','98','99','9901')
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[subject_id = (${subjectid})]]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if> group by region_id) r
+        left join
+        mdyq_region_area as  a on r.region_id = a.regionId
+        order by r.cnt desc
+    </select>
+</mapper>

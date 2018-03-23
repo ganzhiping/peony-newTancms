@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.system.dao.ManagerMapper">
+    <resultMap id="resultBaseList" type="com.peony.newPeony.system.model.Manager">
+        <result column="user_id" property="userid" jdbcType="INTEGER" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+        <result column="phoneNum" property="mobiles" jdbcType="VARCHAR" />
+    </resultMap>
+    <!--查询手机号-->
+    <select id="selectByUserId" resultType="com.peony.newPeony.system.model.Manager" parameterType="java.lang.Integer">
+        SELECT
+        i.user_id,i.mobile,s.phoneNum
+        from pe_t_user i left join pe_t_user_phone s on i.user_id=s.user_id
+        where i.user_id=#{userid}
+    </select>
+</mapper>

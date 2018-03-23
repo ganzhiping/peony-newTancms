@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.report.sentiment.dao.SentimentMapper">
+    <resultMap id="BaseResultMap" type="com.peony.newPeony.report.sentiment.model.Sentiment">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="report_time" property="reportTime" jdbcType="TIMESTAMP"/>
+        <result column="user_id" property="userid" jdbcType="INTEGER"/>
+        <result column="subject_id" property="subjectid" jdbcType="INTEGER"/>
+        <result column="sentiment" property="sentiment" jdbcType="INTEGER"/>
+        <result column="cnt" property="cnt" jdbcType="INTEGER"/>
+        <result column="negativeNo" property="negativeNo" jdbcType="INTEGER"/>
+        <result column="noneNegativeNo" property="noneNegativeNo" jdbcType="INTEGER"/>
+        <result column="getTime" property="getTime" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, report_time, user_id, subject_id, sentiment, cnt
+    </sql>
+    <select id="selectReportByNegative" resultType="java.lang.String"
+            parameterType="com.peony.newPeony.report.sentiment.model.Sentiment">
+        select sum(cnt) from mdyq_sentiment_report where sentiment='-1' and user_id=#{userid}  and is_foreign='0'
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[subject_id = (${subjectid})]]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>
+    </select>
+    <select id="selectReportByCnt" resultType="java.lang.String"
+            parameterType="com.peony.newPeony.report.sentiment.model.Sentiment">
+        select sum(cnt) from mdyq_sentiment_report where user_id=#{userid}  and is_foreign='0'
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[subject_id = (${subjectid})]]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>
+    </select>
+    <select id="selectAllWebData" resultType="java.lang.String" parameterType="com.peony.newPeony.report.sentiment.model.Sentiment">
+        select sum(cnt) from mdyq_sentiment_report where user_id=#{userid}  and is_foreign='0'
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+    </select>
+
+<!--    <select id="selectTodayData" resultType="java.lang.String"
+            parameterType="com.peony.newPeony.report.sentiment.model.Sentiment">
+        select sum(cnt) from mdyq_sentiment_report where user_id=#{userid}  and is_foreign='0'
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+    </select>-->
+    <select id="selectSubjectWebNum" resultType="java.lang.String"
+            parameterType="com.peony.newPeony.report.sentiment.model.Sentiment">
+        select sum(cnt) from mdyq_sentiment_report where user_id=#{userid}  and is_foreign='0'
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[subject_id = (${subjectid})]]>
+        </if>
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+    </select>
+    <select id="selectDevelopRoute" resultMap="BaseResultMap"
+            parameterType="com.peony.newPeony.report.sentiment.model.Sentiment">
+
+        select allcnt.getTime,allcnt.cnt,fznt.negativeNo from
+        (
+        select sum(cnt) as cnt,report_time  as getTime,subject_id from mdyq_sentiment_report
+        where user_id=#{userid}  and is_foreign='0'
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[subject_id = (${subjectid})]]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>
+        group by report_time
+        ) allcnt left join
+        (
+        select sum(cnt) as negativeNo,report_time as getTime,subject_id  from mdyq_sentiment_report
+        where user_id=#{userid} and sentiment='-1'  and is_foreign='0'
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[subject_id = (${subjectid})]]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>
+        group by report_time
+        ) fznt
+        on allcnt.subject_id=fznt.subject_id and allcnt.getTime = fznt.getTime order by allcnt.getTime
+
+
+
+
+        <!-- select cnt,SUBSTRING(report_time,1,16) getTime,sentiment from mdyq_sentiment_report where user_id=#{userid}
+         <if test="endTime!=null">
+             and <![CDATA[report_time <= '${endTime}']]>
+         </if>
+         <if test="subjectid!=0">
+             and <![CDATA[subject_id = (${subjectid})]]>
+         </if>
+         <if test="starTime!=null">
+             and <![CDATA[report_time >= '${starTime}']]>
+         </if>
+         order by report_time-->
+    </select>
+</mapper>

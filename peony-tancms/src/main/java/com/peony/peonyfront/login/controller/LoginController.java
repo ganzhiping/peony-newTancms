@@ -73,6 +73,13 @@ public class LoginController extends BaseController {
         return mv;
     }
 
+    @RequestMapping(value = "/hello")
+    public ModelAndView hello(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("login/hello");
+        return mv;
+    }
+
     /**
      * 代理商跳转到登陆页
      * 
@@ -104,6 +111,8 @@ public class LoginController extends BaseController {
         request.getSession().setAttribute("session_user_id", null);// 用户信息
 
         List<Menu> treeSetList = new ArrayList();
+        //新系统菜单 gzp
+        List<Menu> treeSetList_new = new ArrayList();
         if (loginName != null && !"".equals(loginName) && password != null && !"".equals(password)) {
 
             String encryptPassword = MD5.passwordEncrypt(password);// 密码加密
@@ -129,15 +138,21 @@ public class LoginController extends BaseController {
 
                     List<Role> roleList = this.roleService.selectByUserId(u.getUserId());
                     TreeSet<Menu> menuSet = new TreeSet(new MenuComparator());
+                    TreeSet<Menu> menuSet_new = new TreeSet(new MenuComparator());
                     if (roleList.size() > 0) {
                         for (Role newrole : roleList) {
                             List<Menu> menuList = this.menuService.selectByRoleId(newrole.getRoleId());
                             for (Menu menu : menuList) {
                                 String code = menu.getIdentify();
                                 if (code.substring(0, code.length() - 3).equals("20")) {// 权限标识字段
-                                                                                        // 左移三位==10的写入后台menuset
-                                                                                        // 前台则为==20的
+                                    // 前台则为==20的
                                     menuSet.add(menu);
+                                }
+                                //新系统菜单 gzp
+                                if (code.substring(0, code.length() - 3).equals("30")) {// 权限标识字段
+                                    // 左移三位==10的写入后台menuset
+                                    // 前台则为==20的
+                                    menuSet_new.add(menu);
                                 }
                             }
                         }
@@ -146,7 +161,10 @@ public class LoginController extends BaseController {
                     for (Iterator<Menu> iterator = menuSet.iterator(); iterator.hasNext();) {
                         treeSetList.add(iterator.next());
                     }
-
+                    //新系统菜单 gzp
+                    for (Iterator<Menu> iterator = menuSet_new.iterator(); iterator.hasNext();) {
+                        treeSetList_new.add(iterator.next());
+                    }
                     long currentTime = new Date().getTime();
                     long expirTime = u.getExpiryTime().getTime();
                     long between = (expirTime - currentTime) / 1000;// 除以1000是为了转换成秒
@@ -154,6 +172,7 @@ public class LoginController extends BaseController {
 
                     request.getSession().setAttribute("days", days);// 过期剩余时间
                     request.getSession().setAttribute("menuSet", treeSetList);
+                    request.getSession().setAttribute("menuSet_new", treeSetList_new);
                     return "1";
                 }
             } else {

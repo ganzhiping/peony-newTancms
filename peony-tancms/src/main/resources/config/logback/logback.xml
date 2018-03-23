@@ -19,7 +19,7 @@
         </rollingPolicy>
     </appender>
     <logger name="com.peony" level="INFO"/>
-    <logger name="com.springframework" level="WARN"/>
+    <logger name="com.springframework" level="INFO"/>
     <root level="INFO">
         <!--<appender-ref ref="stdout"/>-->
         <appender-ref ref="logfile"/>

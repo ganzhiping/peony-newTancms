@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.report.website.dao.WebsiteMapper">
+    <resultMap id="BaseResultMap" type="com.peony.newPeony.report.website.model.WebSiteUtil">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="report_time" property="reportTime" jdbcType="TIMESTAMP"/>
+        <result column="user_id" property="userid" jdbcType="INTEGER"/>
+        <result column="subject_id" property="subjectid" jdbcType="INTEGER"/>
+        <result column="sentiment" property="sentiment" jdbcType="INTEGER"/>
+        <result column="cnt" property="cnt" jdbcType="INTEGER"/>
+        <result column="site" property="site" jdbcType="VARCHAR"/>
+        <result column="site_name" property="siteName" jdbcType="VARCHAR"/>
+        <result column="fCnt" property="fCnt" jdbcType="INTEGER"/>
+        <result column="zCnt" property="zCnt" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+       report_time, user_id, subject_id, sentiment, cnt,site,site_name
+    </sql>
+    <select id="selectWebsiteReport" resultMap="BaseResultMap"
+            parameterType="com.peony.newPeony.report.website.model.WebSiteUtil">
+        SELECT acnt.sentiment,acnt.site,acnt.site_name,fcnt.fcnt,acnt.acnt as zcnt
+        FROM
+        ( SELECT
+        sum(cnt) acnt,
+        subject_id,
+        site,
+        IFNULL(site_name,'未知') as site_name,
+        sentiment
+        FROM
+        mdyq_site_report
+        WHERE  user_id=#{userid}
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[subject_id = (${subjectid})]]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>  and is_foreign='0'
+        GROUP BY
+        site
+        ) acnt left join
+        (
+        SELECT
+        sum(cnt) fcnt,
+        subject_id,
+        site,
+        sentiment
+        FROM
+        mdyq_site_report
+        WHERE
+        sentiment = '-1'  and is_foreign='0'
+        AND user_id=#{userid}
+        <if test="starTime!=null">
+            and <![CDATA[report_time >= '${starTime}']]>
+        </if>
+        <if test="subjectid!=0">
+            and <![CDATA[subject_id = (${subjectid})]]>
+        </if>
+        <if test="endTime!=null">
+            and <![CDATA[report_time <= '${endTime}']]>
+        </if>
+        GROUP BY
+        site
+        ) fcnt
+        on fcnt.subject_id=acnt.subject_id and fcnt.site=acnt.site and acnt
+        ORDER BY acnt.acnt DESC
+        limit 0,10
+    </select>
+
+
+
+
+
+</mapper>

@@ -10,16 +10,16 @@
     		}else{
     			window.location.href="${request.getContextPath()}/userLogout";
    			 }
-		
+
  		 }
-		
+
   }
     $.jBox.setDefaults({
 		defaults : {
 			border : 0
 		}
 	})
-  
+
   $.jBox.confirm("您确定要退出吗？", "提示", submit);
 }
 
@@ -41,11 +41,11 @@
 	}else{
 		now = now + date.getSeconds() ;
 	}
-	
+
 	document.getElementById("nowDiv").innerHTML = now; //div的html是now这个字符串
 	t= setTimeout("show()", 1000); //设置过1000毫秒就是1秒，调用show方法
 	}
-	
+
 	$(function() {
 	show();
 	var isAgentUser="${userfront.agentId}";
@@ -59,11 +59,11 @@
 		}
 	}else{
 		$(".logo").css("background","url('${request.getContextPath()}/images/img/mddsj_index/mddsj_logo.png')  no-repeat scroll center center rgba(0, 0, 0, 0)");
-	}	
-		
+	}
+
 	})
 </script>
-  
+
 <div class="header">
   <div class="bg">
   <!----皮肤切换新增开始--->
@@ -78,30 +78,35 @@ $(this).addClass("this").siblings().removeClass("this");
 var claid=this.id ;
 
 if(claid=='1'){
-  $("#cssfile1" ).attr( "href" ,  "${request.getContextPath()}/css/front/mddsj.css" ); 
-   $("#cssfile2" ).attr( "href" ,  "${request.getContextPath()}/css/jbox/jbox.css" ); 
-   $("#cssfile3" ).attr( "href" ,  "${request.getContextPath()}/css/ztree/zTreeStyle.css" ); 
-  } //设置不同皮肤    
+  $("#cssfile1" ).attr( "href" ,  "${request.getContextPath()}/css/front/mddsj.css" );
+   $("#cssfile2" ).attr( "href" ,  "${request.getContextPath()}/css/jbox/jbox.css" );
+   $("#cssfile3" ).attr( "href" ,  "${request.getContextPath()}/css/ztree/zTreeStyle.css" );
+  } //设置不同皮肤
 if(claid=='2'){
   $("#cssfile1" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lanse/css/front/mddsj.css" );
-   $("#cssfile2" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lanse/css/jbox/jbox.css" ); 
-   $("#cssfile3" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lanse/css/ztree/zTreeStyle.css" ); 
-   } //设置不同皮肤    
+   $("#cssfile2" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lanse/css/jbox/jbox.css" );
+   $("#cssfile3" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lanse/css/ztree/zTreeStyle.css" );
+   } //设置不同皮肤
 if(claid=='3'){
-  $("#cssfile1" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lvse/css/front/mddsj.css" ); 
-   $("#cssfile2" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lvse/css/jbox/jbox.css" ); 
-   $("#cssfile3" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lvse/css/ztree/zTreeStyle.css" ); 
+  $("#cssfile1" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lvse/css/front/mddsj.css" );
+   $("#cssfile2" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lvse/css/jbox/jbox.css" );
+   $("#cssfile3" ).attr( "href" ,  "${request.getContextPath()}/skin/skin_lvse/css/ztree/zTreeStyle.css" );
 
-  } //设置不同皮肤    
+  } //设置不同皮肤
   //后台ajax更新数据库及session
 $.ajax({url:"${request.getContextPath()}/updateUserStyle?userStyle="+claid+"&time="+new Date(),async:false});
 
 })
 });
+
+
+	function gotoNewMenu(){
+        window.open ( "${request.getContextPath()}/overView/overViewList", "_blank" ) ;
+	}
 </script>
 
 <!----皮肤切换新增结束--->
-  
+
     <div class="logo"></div>
     <input type="hidden" id="user_logout_type" value="${userfront.userSource}"/>
      <!--试用用户到期提示 -->
@@ -139,16 +144,16 @@ $.ajax({url:"${request.getContextPath()}/updateUserStyle?userStyle="+claid+"&tim
       <li><a href="${request.getContextPath()}/system/toEditEvent">系统配置</a></li>-->
     </ul>
   </div>
-  
+
 </div>
 <!----头部-结束--->
 <script>
 
 $(function() {
 	    $("ul li a").on("click", function() {
-  			$(this).parent().removeClass("home this"); 
-            $(this).parent().addClass("home this"); 
-            var id=$(this).attr('id'); 
+  			$(this).parent().removeClass("home this");
+            $(this).parent().addClass("home this");
+            var id=$(this).attr('id');
             if(id==1013){
             var userType="${userfront.userType}";
             	if(userType==1){

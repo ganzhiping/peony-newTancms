@@ -78,8 +78,12 @@
     <!-- 分页查询 首页查询 按title去重 -->
     <select id="selectGroupByTitle" resultMap="BaseResultMap" parameterType="com.peony.peonyfront.subject.model.SubjectPage">
         select * from ( SELECT
-        id,title,groupseedid,
-        webSite,url,publishDate
+        any_value(id) id,
+        title,
+        any_value(groupseedid) groupseedid,
+        any_value(webSite) webSite,
+        any_value(url) url,
+        any_value(publishDate) publishDate
         FROM
         <include refid="modelTableName" />
         <where>

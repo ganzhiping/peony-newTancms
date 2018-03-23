@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.newPeony.opinionMon.dao.QueryRequireMapper">
+    <resultMap id="BaseResultMap" type="com.peony.newPeony.opinionMon.model.QueryRequire">
+        <result column="userid" property="userid" jdbcType="INTEGER" />
+        <result column="source" property="source" jdbcType="INTEGER" />
+        <result column="polarity" property="polarity" jdbcType="INTEGER" />
+        <result column="weblevel" property="weblevel" jdbcType="INTEGER" />
+        <result column="dataType" property="dataType" jdbcType="INTEGER" />
+        <result column="isRead" property="isRead" jdbcType="INTEGER" />
+        <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        userid,source,polarity,weblevel,isRead,startTime,endTime
+    </sql>
+
+    <sql id="modelTableName">
+        <![CDATA[pe_t_subject_search]]>
+    </sql>
+    <select id="selectByUserId" parameterType="java.lang.Integer" resultType="com.peony.newPeony.opinionMon.model.QueryRequire">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="modelTableName"/>
+      where userid=#{userid}
+    </select>
+    <insert id="insertOrUpdate" parameterType="com.peony.newPeony.opinionMon.model.QueryRequire">
+        insert  into <include refid="modelTableName"/>  (userid,source,polarity,weblevel,isRead,startTime,dataType,endTime) VALUES
+        (#{userid,jdbcType=INTEGER},
+        #{source,jdbcType=INTEGER},
+        #{polarity,jdbcType=INTEGER},
+        #{weblevel,jdbcType=INTEGER},
+        #{isRead,jdbcType=INTEGER},
+        #{startTime,jdbcType=TIMESTAMP},
+        #{dataType,jdbcType=INTEGER},
+        #{endTime,jdbcType=TIMESTAMP})
+        ON DUPLICATE KEY UPDATE
+        userid=#{userid,jdbcType=INTEGER},
+        source=#{source,jdbcType=INTEGER},
+        polarity=#{polarity,jdbcType=INTEGER},
+        weblevel=#{weblevel,jdbcType=INTEGER},
+        isRead=#{isRead,jdbcType=INTEGER},
+        dataType=#{dataType,jdbcType=INTEGER},
+        startTime=#{startTime,jdbcType=TIMESTAMP},
+        endTime=#{endTime,jdbcType=TIMESTAMP}
+    </insert>
+</mapper>

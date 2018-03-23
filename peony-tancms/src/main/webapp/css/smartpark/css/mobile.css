@@ -1,0 +1,170 @@
+﻿@charset "utf-8";/*ssq add 2016.9.21*/
+*{padding:0;margin:0;box-sizing:border-box!important;-webkit-box-sizing:border-box;}
+html{font-family:"Microsoft Yahei",Arial,sans-serif;font-size:62.5%;-webkit-text-size-adjust:none;}
+body{font-size: 1.2rem;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,fieldset,input,button,textarea,p,th,td{padding:0;margin:0;font-family:"Microsoft YaHei",sans-serif,Arial}
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+a{text-decoration:none;color:#000;outline:none}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-weight:normal;}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;outline:medium;}
+ol,ul{list-style:none;}
+html,body{margin:0;padding:0;width:100%;height:100%;}
+a:active,a:link{-webkit-tap-highlight-color: transparent;}
+
+/*chrome浏览器*/
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance: none !important;margin: 0;}
+/*Firefox浏览器*/
+input[type="number"]{-moz-appearance:textfield;}
+/*公共类样式*/
+.fl{float:left;}
+.fr{float:right;}
+.tl{text-align:left!important;}
+.tr{text-align:right!important;}
+.w-10{width:10%;}
+.w-20{width:20%;}
+.w-25{width:25%;}
+.w-32{width:32%;}
+.w-45{width:45%;}
+.w-50{width:50%;display:inline-block;}
+.w-68{width:68%!important;display:inline-block;}
+.w-100{width:100%;}
+.w30{width:30px!important;}
+.w40{width:40px;}
+.w45{width:45px;display:inline-block;}
+.w60{width:60px;}
+.w70{width:70px!important;}
+.w75{width:75px;display:inline-block;}
+.w80{width:80px;}
+.w90{width:90px;}
+.w100{width:100px;display:inline-block;}
+.w115{width:115px!important;display:inline-block;}
+.mh400{min-height:400px!important;}
+.timer{width:100%;}
+.mt10{margin-top:10px!important;}
+.mt20{margin-top:20px!important;}
+.ml0{margin-left:0!important;}
+.ml10{margin-left:10px;}
+.mr10{margin-right:10px;}
+.mr20{margin-right:20px;}
+.mr40{margin-right:40px;}
+.mb5{margin-bottom:-5px!important;}
+.no-margin{margin:0!important;}
+.pt10{padding-top:10px;}
+.pLR10{padding:0 10px;}
+.bgW{background:#fff!important;}
+.bg1{background:#f6f6f6!important;}
+.bg-bottom{background:#CCCCFF;}
+.fs14{font-size:1.4rem;}
+.fs16{font-size:1.6rem;}
+.colorGray{color:#7d7d7d;}
+.colorBlack{color:#333;}
+.colorO{color:#fe7f37}
+b.colorO{display:inline-block;width:6px;text-align:center;vertical-align:middle;font-size:1.4rem;}
+.mhome{margin:0 auto;max-width:640px;min-width:300px;padding-top:40px;}
+.main{width:100%;height:100%;padding:10px 0;}
+.wrap{width:100%;overflow-x:hidden;overflow-y:auto;height:100%;padding:10px;background:#f6f6f6;}
+/*按钮组*/
+.btnGroup{padding:10px;text-align:center;background:#fff;}
+.btnGroup>div{margin:20px 0;}
+.btnGroup>div>a{display:inline-block;}
+.btnGroup>div>a,.btnGroup>div>input[type=button],.btnGroup>div>input[type=submit],.btn-export,.btn-modify,.btn-search{min-width:60px;padding:5px 0;margin:0 10px;text-align:center;background:#efefef;border:none;border:0;border-radius:5px;}
+.btnGroup>div>a.indexA{background:#009dd9;color:#fff;}
+.btnGroup>div>input.btn-save,.btnGroup>div>input.btn-submit,.btnGroup>div>input.btn-return,.btnGroup>div>input.btn-del{width:25%;color:#fff;}
+.btnGroup>div>input.btn-save{background:#009dd9;}
+.btnGroup>div>input.btn-submit{background:#fe7d41;}
+.btnGroup>div>a.btn-agree,.btnGroup>div>input.btn-return,.btnGroup>div>input.btn-del,.btn-userable,.btn-modify,.btn-search{background:#fe7d41;color:#fff;}
+.btnGroup>div>a.btn-disagree,.btn-export,.btnGroup>div>a.btn-count,.btn-userless{background:#009dd9;color:#fff;}
+.btn-export{margin-right:15px;padding:5px;}
+.btn-search{display:inline-block;}
+
+/*搜索组*/
+.searchGroup{width:100%;overflow:hidden;padding:15px 0;font-size:1.4rem;}
+.searchWord{float:left;margin:0 15px;line-height:25px;color:#fe7f37;}
+.searchBox{position:relative;float:left;margin:0 15px;background:#fff;}
+.searchGroup input{display:inline-block;float:left;border:none;border:0;outline:none;}
+.searchGroup input.searchText{width:196px;height:25px;line-height:25px;text-indent:5px;}
+.searchGroup input.searchPic{float:right;width:24px;height:24px;background:url(images/search.png) 0 0 no-repeat;cursor:hand;cursor:pointer;}
+.clearText{position:absolute;right:28px;top:1px;display:none;padding:0 5px;color:#7d7d7d;}
+/*单选框组件样式*/
+.chooseBox{display:inline-block;}
+.chooseBox>input[type=radio],.chooseBox>input[type=checkbox]{vertical-align:middle;}
+.chooseType{padding:2px 6px;text-align:center;background:#efefef;border:none;border:0;border-radius:5px;}
+/*icon图标组 还可进行sprite优化*/
+.icon-mobile,.icon-lock,.icon-user,.icon-letter,.icon-clock,.icon-calendar,.icon-personInfo,.icon-pregnancy{padding-left:34px;}
+/*.icon-mobile{background:url(../images/mobile.png) 5px center no-repeat;}
+.icon-lock{background:url(../images/lock.png) 5px center no-repeat;}
+.icon-user{background:url(../images/user.png) 5px center no-repeat;}
+.icon-letter{background:url(../images/letter.png) 5px center no-repeat;}
+.icon-clock{background:url(../images/clock.png) 5px center no-repeat;}
+.icon-calendar{background:url(../images/calendar.png) 5px center no-repeat;}
+.icon-personInfo{background:url(../images/personInfo.png) 5px center no-repeat;}
+.icon-pregnancy{background:url(../images/pregnancy.png) 5px center no-repeat;}*/
+/*顶部固定条*/
+.fixedTop{position:fixed;top:0;z-index:9999;width:100%;max-width:640px;height:40px;line-height:40px;text-align:center;background:#41a4fe;color:#fff;font-size:1.4rem;}
+.fixedTop>span{display:inline-block;padding-left:20px;background:url("../css/images/logo-s.png") no-repeat 0 center}
+/*页码和推广者式*/
+.page{width:100%;max-width:640px;text-align:center;padding:15px 0;}
+.page>a{margin:0 10px;}
+/*排序样式*/
+.setSortable{min-height:380px;}
+.setSortable>iframe{width:100%;min-height:380px;}
+.sortItems>li{width:100%;overflow:hidden;padding:5px 0;margin:10px 0;border-radius:5px;background:#f5f5f5;}
+.sortItems>li>span,.addMore>li>span{display:inline-block;line-height:25px;}
+.rangeNum{float:right;margin-right:5px;}
+.rangeNum>i{font-style:normal;}
+.addMore{margin:10px 0;padding:10px;border:1px solid #41a4fe;border-radius:8px;}
+.addMore>li{margin-bottom:10px;border-radius:5px;background:#f5f5f5;}
+.addMore>li:last-child{margin-bottom:0;}
+.btn-delete{display:inline-block;position:absolute;right:-7px;top:-9px;width:24px;height:24px;}
+.btn-del2,.btn-drag,.btn-add{display:inline-block;width:24px;height:24px;margin:0 6px;}
+/*.btn-del2{background:url(../images/delete.png) 0 center no-repeat;}*/
+.btn-drag{cursor:default;/*background:url(../images/drag.png) 0 center no-repeat;*/}
+/*.btn-add{background:url(../images/add.png) 0 center no-repeat;}*/
+
+
+/*就诊信息页、推广者角色页和弹出页样式*/
+.no-info{padding:20px 0;margin:10px 0;text-align:center;background:#fff;}
+.records>dt{height:30px;line-height:30px;}
+.records>dd{/*height:90px;*/padding:0 8px;margin-bottom:10px;box-shadow:2px 6px 10px #e4e4e4;background:#fff;}
+.records>dd>a{color:#333;}
+.personInfo{padding:13px 0;border-bottom:1px solid #fff;}
+/*.personInfo span{display:block;}*/
+.hospitalInfo{width:100%;overflow:hidden;padding:13px 0;}
+.hospitalInfo>span{display:inline-block;}
+.hospitalName{max-width:196px;margin-right:18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.userName{display:block;max-width:196px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/*信件类网页样式*/
+.letterSec{padding:10px;}
+.letterTitle{height:40px;line-height:40px;margin-bottom:10px;text-align:center;font-size:1.8rem;}
+.letterCon{width:100%;overflow:hidden;font-size:1.4rem;}
+.letterCon>p{text-indent:2em;}
+.text-right{float:right;width:50%;text-align:right;}
+
+/*移动终端宽度为300到320*/
+@media (min-width:300px) and (max-width:320px){
+	.w40{width:40px!important;}
+	.w70{width:70px!important;}
+	.w130{width:130px!important;}
+	.w-40{width:40%!important;}
+	.w-43{width:43%;}
+	.w-57{width:58%!important;}
+	.item-2{display:inline-block;width:46%;}
+	.item-3{display:inline-block;width:52%;}
+	.no-paddingLR{padding-left:0!important;padding-right:0!important;}
+	.hospitalName{max-width:162px;}
+	.chooseType{margin:0!important;padding:2px!important;}
+	.vegetables>dd>div>label,.fruits>dd>div>label,.nuts>dd>div>label,.vegetables>dd>div>span,.fruits>dd>div>span,.nuts>dd>div>span{float:left;}
+}
+@media (min-width:321px) and (max-width:360px){
+	.w130{width:165px!important;}
+}
+@media (min-width:321px) and (max-width:640px){
+	.w58{width:58px!important;}
+}
+/*横屏时宽度440到639的样式*/
+@media screen and (orientation:landscape) and (min-width:440px) and (max-width:639px){
+}

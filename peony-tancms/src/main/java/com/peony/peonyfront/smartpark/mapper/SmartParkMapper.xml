@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.peony.peonyfront.smartpark.dao.SmartParkMapper">
+    <resultMap id="BaseResultMap" type="com.peony.peonyfront.smartpark.model.SmartPark">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="userid" property="userid" jdbcType="INTEGER" />
+        <result column="subjectid" property="subjectid" jdbcType="INTEGER" />
+        <result column="pageId" property="pageId" jdbcType="VARCHAR" />
+        <result column="publishDate" property="publishDate" jdbcType="TIMESTAMP" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="summary" property="description" jdbcType="VARCHAR" />
+        <result column="webSite" property="webSite" jdbcType="VARCHAR" />
+        <result column="newsLevel" property="newsLevel" jdbcType="VARCHAR" />
+        <result column="siteLevel" property="siteLevel" jdbcType="VARCHAR" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="BaseSearch" type="java.lang.String">
+        <result column="id" property="subjectid" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, userid, subjectid, pageId, DATE_FORMAT(publishDate,'%Y-%m-%d %H:%i:%S') publishDate, title, summary,siteLevel,webSite,newsLevel,url
+    </sql>
+
+    <select id="selectSmartPark" parameterType="com.peony.peonyfront.smartpark.model.SmartPark" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pe_t_subject_page
+        where userid = ${userid}
+        <if test="startTime != null">
+            <![CDATA[ AND publishDate >= "${startTime}" ]]>
+        </if>
+        <if test="endTime != null">
+            <![CDATA[ AND publishDate <= "${endTime}" ]]>
+        </if>
+        <if test="subjectIds != null">
+            <![CDATA[ AND subjectId in (${subjectIds}) ]]>
+        </if>
+        <if test="newsLevel != null">
+            <![CDATA[ AND newsLevel in (${newsLevel}) ]]>
+        </if>
+        order by ${orderStr}
+        limit ${pageSize},${curentPage}
+    </select>
+
+    <select id="selectInfoById" parameterType="java.lang.String" resultType="com.peony.peonyfront.smartpark.model.SmartPark">
+        select <include refid="Base_Column_List"/> from pe_t_subject_page where id=#{id}
+    </select>
+
+    <select id="selectByQueryCache" parameterType="com.peony.peonyfront.smartpark.model.SmartPark" resultMap="BaseResultMap">
+        select p.id as id ,p.userid as userid, p.subjectid as subjectid, p.pageId as pageId, DATE_FORMAT(p.publishDate,'%Y-%m-%d %H:%i:%S') as  publishDate, p.title,c.highlight as summary,p.siteLevel,p.webSite,p.newsLevel,p.url
+         from pe_t_subject_page p left join pe_t_query_cache c  on c.user_id=p.userid and c.page_id =p.pageId
+         where c.query_id=&apos;${queryid}&apos; and  c.user_id=${userid} order by c.es_relevance desc limit ${pageSize},${curentPage}
+    </select>
+
+    <select id="selectSubjectIds" parameterType="com.peony.peonyfront.smartpark.model.SmartPark" resultMap="BaseSearch">
+        select id from pe_t_subject where userid=${userid}
+    </select>
+</mapper>

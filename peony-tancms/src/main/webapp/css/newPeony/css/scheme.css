@@ -1,0 +1,40 @@
+/*公告类部分*/
+.bg1{background:url(../img/bg1.png) 0 0 repeat;}
+.icon1,.icon2,.icon3,.icon4,.icon5{display:inline-block;width:25px;height:25px;margin-right:6px;margin-bottom:-6px;}
+.icon1{background:url(../img/icon1.png) center center no-repeat;}
+.icon2{background:url(../img/icon2.png) center center no-repeat;}
+.icon3{background:url(../img/icon3.png) center center no-repeat;}
+.icon4{background:url(../img/icon4.png) center center no-repeat;}
+.icon5{background:url(../img/icon5.png) center center no-repeat;}
+.icon6,.icon7{display:inline-block;width:30px;height:30px;margin-right:6px;margin-bottom:-6px;}
+.icon6{background:url(../img/icon6.png) center center no-repeat;}
+.icon7{background:url(../img/icon7.png) center center no-repeat;}
+/*头部样式*/
+.header{width:96%;overflow:hidden;height:60px;line-height:60px;margin:0px auto;}
+.h-left{float:left;margin-top:15px;}
+.logo{width:90px;height:33px;/*padding-left:83px;*/background:url(../img/logo.png) center center no-repeat;}
+.h-right{float:right;}
+.h-right>li{float:left;margin-right:10px;}
+.wrapper{width:100%;height:40px;background:#00c9bf;}
+
+/*文章详情页*/
+.content{width:96%;margin:20px auto;}
+.main{float:right;width:70%;}
+.subjectTitle{height:46px;line-height:46px;text-indent:15px;margin-bottom:12px;background:#e5e5e5;font-size:18px;}
+.TabNav{width:100%;height:38px;}
+.TabNav li{float:left;padding:5px 10px;border-top:3px solid #fff;font-size:16px;cursor:pointer;}
+.TabNav li.index{position:relative;z-index:999;padding-bottom:10px;background:#fff;border-top:3px solid #00c9bf;border-left:1px solid #ddd;border-right:1px solid #ddd;}
+.schemeSec{padding:14px;margin-bottom:10px;border:1px solid #ddd;}
+.schemeForm ul li{line-height:90px;position:relative;}
+.regionThesaurus{position:absolute;right:2%;top:77px;z-index:999;width:78px;height:27px;line-height:27px;color:#fff;text-align:center;background:#00c9bf;border-radius:5px;}
+.emotionThesaurus{position:absolute;right:2%;top:77px;z-index:999;width:78px;height:27px;line-height:27px;color:#fff;text-align:center;background:#00c9bf;border-radius:5px;}
+.schemeForm ul li label{display:inline-block;width:100px;font-size:16px;}
+.schemeForm ul li input{display:inline-block;width:86%;height:45px;text-indent:10px;border:1px solid #ddd;}
+.textCenter{text-align:center;}
+.schemeForm ul li input.input-Btn{width:130px;height:44px;line-height:44px;font-size:24px;color:#fff;border-radius:6px;background:#929292;cursor:pointer;cursor:hand;}
+.schemeForm ul li input.input-Btn:hover{background:#00c9bf;}
+
+/*媒体查询样式*/
+@media (min-width:1000px) and (max-width:1580px){
+ .schemeForm ul li input{width:89%;}
+}
